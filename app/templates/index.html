@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudOps AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>CloudOps AI Assistant</h1>
+        <p class="subtitle">Local MVP for Q&A and Ticket Classification</p>
+
+        <div class="card">
+            <h2>Ask a Cloud Question</h2>
+            <form method="get" action="/">
+                <input
+                    type="text"
+                    name="question"
+                    placeholder="Example: What is Cloud NAT?"
+                    value="{{ question }}"
+                >
+                <button type="submit">Ask</button>
+            </form>
+
+            {% if answer %}
+            <div class="result">
+                <h3>Answer</h3>
+                <p>{{ answer }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Classify a Ticket</h2>
+            <form method="get" action="/">
+                <input
+                    type="text"
+                    name="ticket"
+                    placeholder="Example: My password is not working"
+                    value="{{ ticket }}"
+                >
+                <button type="submit">Classify</button>
+            </form>
+
+            {% if category %}
+            <div class="result">
+                <h3>Category</h3>
+                <p>{{ category }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="links">
+            <p>API links:</p>
+            <ul>
+                <li><a href="/health" target="_blank">/health</a></li>
+                <li><a href="/ask?question=What%20is%20Cloud%20NAT" target="_blank">/ask</a></li>
+                <li><a href="/classify?ticket=My%20password%20is%20not%20working" target="_blank">/classify</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
