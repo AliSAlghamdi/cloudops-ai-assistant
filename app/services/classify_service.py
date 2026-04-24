@@ -1,13 +1,20 @@
-def classify_ticket(ticket: str) -> str:
-    t = ticket.lower()
+from functools import lru_cache
+from pathlib import Path
+import joblib
 
-    if "connect" in t or "timeout" in t or "network" in t:
-        return "Network Issue"
-    elif "login" in t or "password" in t or "access" in t or "permission" in t:
-        return "Access Issue"
-    elif "disk" in t or "storage" in t or "space" in t:
-        return "Storage Issue"
-    elif "vm" in t or "server" in t or "instance" in t:
-        return "Compute Issue"
-    else:
-        return "General Issue"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+MODEL_FILE = BASE_DIR / "ml" / "ticket_classifier.joblib"
+
+
+@lru_cache
+def load_model():
+    return joblib.load(MODEL_FILE)
+
+
+def classify_ticket(ticket: str) -> str:
+    if not MODEL_FILE.exists():
+        return "Model not trained yet"
+
+    model = load_model()
+    prediction = model.predict([ticket])[0]
+    return str(prediction)
