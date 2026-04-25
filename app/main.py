@@ -1,12 +1,16 @@
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+
 from app.routes.qa import router as qa_router
 from app.routes.classify import router as classify_router
 from app.routes.web import router as web_router
 
+BASE_DIR = Path(__file__).resolve().parent
+
 app = FastAPI(title="CloudOps AI Assistant")
 
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 
 @app.get("/health")
