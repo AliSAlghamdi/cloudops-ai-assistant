@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudops-ai-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudops-ai-assistant
+  template:
+    metadata:
+      labels:
+        app: cloudops-ai-assistant
+    spec:
+      containers:
+        - name: cloudops-ai-assistant
+          image: cloudops-ai-assistant:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-secret
+                  key: OPENAI_API_KEY
